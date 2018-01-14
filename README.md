@@ -10,7 +10,7 @@
 * mybatis mapper 设计方案使用注解@xxxProvider实现；
 * 采用redis消息队列实现统一的job任务调度，所有的job调度都在此RedisMessageListener.java监听器实现；
 * 执行job任务都存放在数据库中，当服务停止时，未完成执行的job任务将会存储在数据库中，直到下次服务启动将从数据库中执行未完成的job任务。详细请看JobConfig.java 这个配置类
-* 前后端数据分离，http服务访问跨域；
+* 前后端数据分离，http服务访问跨域；使用注解 @CrossOrigin 设置接口可跨域
 ## 项目启动
 1. 此项目启动需要如下几个工具：
 * Node [https://nodejs.org/en/](https://nodejs.org/en/) 
@@ -24,7 +24,10 @@
 * sublime text 3 [https://www.sublimetext.com/](https://www.sublimetext.com/) 或者 VS CODE [https://code.visualstudio.com/](https://code.visualstudio.com/) 或者 webstorm [https://www.jetbrains.com/webstorm/](https://www.jetbrains.com/webstorm/)
 3. 启动服务
 * 后端服务启动采用spring boot 方式运行mvn spring-boot:run ；
-* 前端控制台服务启动，采用npm方式启动。先需要安装Node,Node中已经默认安装了npm；npm install 安装依赖包，npm run dev 启动控制台页面
+* 前端控制台服务启动，采用npm方式启动。首先需要安装Node,Node中已经默认安装了npm；npm install 安装依赖包，npm run dev 启动控制台页面
+
+# 注意
+* *此项目适合中、高级Java工程师参考,此项目内容丰富，思想独特，架构另类，技术栈新*
 
 
 
