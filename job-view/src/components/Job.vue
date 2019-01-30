@@ -18,7 +18,7 @@
 
     <el-table
       ref="multipleTable"
-      :data="tableData"
+      :data="list"
       align="center"
       header-align="center"
       tooltip-effect="dark"
@@ -27,25 +27,45 @@
       @selection-change="handleSelectionChange">
 
       <el-table-column type="selection" width="40"></el-table-column>
-      <el-table-column prop="jobName" label="任务名称" width="120"></el-table-column>
-      <el-table-column prop="jobGroup" label="任务组" width="120"></el-table-column>
-      <el-table-column prop="springId" label="SpringId" width="120"></el-table-column>
-      <el-table-column prop="cron" label="cron" width="120"></el-table-column>
+      <el-table-column prop="jobName" label="任务名称" width="120">
+        <template slot-scope="scope">
+          <span>{{ scope.row.jobName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="jobGroup" label="任务组" width="120">
+        <template slot-scope="scope">
+          <span>{{ scope.row.jobGroup }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="springId" label="SpringId" width="120">
+        <template slot-scope="scope">
+          <span>{{ scope.row.springId }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="cron" label="cron" width="120">
+        <template slot-scope="scope">
+          <span>{{ scope.row.cron }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="methodName" label="执行方法" width="120"></el-table-column>
       <el-table-column prop="jobStatus" label="状态" width="100">
         <template slot-scope="scope">
           <el-tag :type="scope.row.jobStatus | jobStatusFilter">{{scope.row.jobStatus | jobStatusNameFilter}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="description" label="任务描述" width="180"></el-table-column>
+      <el-table-column prop="description" label="任务描述" width="180">
+        <template slot-scope="scope">
+          <span>{{ scope.row.description }}</span>
+        </template>
+      </el-table-column>
 
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="mini" icon="el-icon-edit" @click="handleEdit(scope.row.id,scope.row)">编辑</el-button>
-          <el-button size="mini" type="danger" icon="el-icon-delete" @click="handleDelete(scope.row.id,scope.row)">删除</el-button>
-          <el-button size="mini" type="warning" icon="el-icon-close" @click="handlePause(scope.row.id,scope.row)">暂定</el-button>
-          <el-button size="mini" type="success" icon="el-icon-check" @click="handleExecute(scope.row.id,scope.row)">立即执行</el-button>
-          <el-button size="mini" type="primary" icon="el-icon-check" @click="handleResume(scope.row.id,scope.row)">恢复</el-button>
+          <el-button size="mini" icon="el-icon-edit" @click="handleEdit(scope.row)">编辑</el-button>
+          <el-button size="mini" type="danger" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
+          <el-button size="mini" type="warning" icon="el-icon-close" @click="handlePause(scope.row)">暂定</el-button>
+          <el-button size="mini" type="success" icon="el-icon-check" @click="handleExecute(scope.row)">立即执行</el-button>
+          <el-button size="mini" type="primary" icon="el-icon-check" @click="handleResume(scope.row)">恢复</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -93,7 +113,7 @@
     name: 'Job',
     data () {
       return {
-        tableData: [],
+        list: [],
         multipleSelection: [],
         jobStatusOptions: [
           {'key': '0', 'display_name': '暂停'},
@@ -144,7 +164,7 @@
       loadList () {
         this.listLoading = true
         getList(this.listQuery).then(response => {
-          this.tableData = response.record
+          this.list = response.data
           this.total = response.total
           this.listLoading = false
           this.showDialogVisible = false
@@ -166,14 +186,14 @@
       handleSelectionChange (val) {
         this.multipleSelection = val
       },
-      handleEdit (index, row) {
+      handleEdit (row) {
         this.jobModel = row
         this.showDialogVisible = true
         this.disabled = true
         this.dialogStatus = 'edit'
         this.titleDialog = '编辑'
       },
-      handleDelete (index, row) {
+      handleDelete (row) {
         this.$confirm('您确认要删除此Job任务【' + row.jobName + '】任务吗？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -208,7 +228,7 @@
         this.listQuery.page = 1
         this.loadList()
       },
-      handlePause (index, row) {
+      handlePause (row) {
         this.$confirm('您确认要暂停此Job任务【' + row.jobName + '】任务吗？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -232,7 +252,7 @@
           })
         })
       },
-      handleResume (index, row) {
+      handleResume (row) {
         this.$confirm('您确认要恢复此Job任务【' + row.jobName + '】任务吗？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -256,7 +276,7 @@
           })
         })
       },
-      handleExecute (index, row) {
+      handleExecute (row) {
         this.$confirm('您确认要立即执行此Job任务【' + row.jobName + '】任务吗？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',

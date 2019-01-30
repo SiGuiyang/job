@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="quick.pager.job.mapper.JobMapper">
+  <resultMap id="BaseResultMap" type="quick.pager.job.maintaince.model.JobModel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="job_name" jdbcType="VARCHAR" property="jobName" />
+    <result column="job_group" jdbcType="VARCHAR" property="jobGroup" />
+    <result column="job_status" jdbcType="VARCHAR" property="jobStatus" />
+    <result column="cron" jdbcType="VARCHAR" property="cron" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="class_name" jdbcType="VARCHAR" property="className" />
+    <result column="spring_id" jdbcType="VARCHAR" property="springId" />
+    <result column="method_name" jdbcType="VARCHAR" property="methodName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, create_time, job_name, job_group, job_status, cron, description, class_name, 
+    spring_id, method_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_job
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <insert id="insertSelective" parameterType="quick.pager.job.maintaince.model.JobModel">
+    insert into t_job
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="jobName != null">
+        job_name,
+      </if>
+      <if test="jobGroup != null">
+        job_group,
+      </if>
+      <if test="jobStatus != null">
+        job_status,
+      </if>
+      <if test="cron != null">
+        cron,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="className != null">
+        class_name,
+      </if>
+      <if test="springId != null">
+        spring_id,
+      </if>
+      <if test="methodName != null">
+        method_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jobName != null">
+        #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobGroup != null">
+        #{jobGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="jobStatus != null">
+        #{jobStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="cron != null">
+        #{cron,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null">
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="springId != null">
+        #{springId,jdbcType=VARCHAR},
+      </if>
+      <if test="methodName != null">
+        #{methodName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="quick.pager.job.maintaince.model.JobModel">
+    update t_job
+    <set>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jobName != null">
+        job_name = #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobGroup != null">
+        job_group = #{jobGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="jobStatus != null">
+        job_status = #{jobStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="cron != null">
+        cron = #{cron,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null">
+        class_name = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="springId != null">
+        spring_id = #{springId,jdbcType=VARCHAR},
+      </if>
+      <if test="methodName != null">
+        method_name = #{methodName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectAll" parameterType="quick.pager.job.maintaince.model.JobModel" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from t_job
+    <where>
+      <if test="jobName != null">
+        job_name = #{jobName,jdbcType=VARCHAR}
+      </if>
+      <if test="jobGroup != null">
+        and job_group = #{jobGroup,jdbcType=VARCHAR}
+      </if>
+      <if test="jobStatus != null">
+        and job_status = #{jobStatus,jdbcType=VARCHAR}
+      </if>
+    </where>
+    order by id desc
+  </select>
+
+</mapper>

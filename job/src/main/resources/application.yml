@@ -1,4 +1,12 @@
 
+server:
+    port: 8081
+
 spring:
+  application:
+    name: job
   profiles:
     active: dev
+mybatis:
+  mapper-locations: classpath*:quick/pager/job/mapper/*.xml
+  type-aliases-package: quick.job.maintaince.model
